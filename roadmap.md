@@ -27,22 +27,17 @@ This is the layer Dave built that's **not** in the public repo — you're replic
 - `daily-plan` Step 5 checks if today's intel file exists — if not, triggers the MCP to generate it
 - Publish the MCP as a standalone repo: `yourusername/mcp-youtube` — this becomes a starrable, shareable GitHub artifact
 
-**1c. LinkedIn Saved Posts Parser**
-- **Daily JSON Ingest:** Upload a JSON export of your own saved LinkedIn posts to be ingested into the intelligence scanning similar to newsletters/emails.
-- Dex cross-references new signals against your contacts in `05-Areas/People/` to flag who's worth responding to.
-- For your use case: cross-reference against Stripe/YC-relevant people — anyone from fintech, payments, or top-tier VC shows up highlighted.
+**1c. LinkedIn Saved Posts Parser [COMPLETE]**
+- **Daily JSON Ingest:** Established the **Drop Zone** (`00-Inbox/Drop_Zone/`) as the landing pad for LinkedIn JSON exports.
+- **Skill 001:** Created `System/ingest/parse_linkedin.py` to transform 3,000+ saves into structured Markdown (the "Dave Killeen Heuristic").
+- **Success:** Processed 3,477 items into `00-Inbox/LinkedIn/` with automated author WikiLinking.
 
-**1d. X/Twitter Intel (new custom MCP)**
-- Pull your X timeline, bookmarks, and mentions into a daily digest using the X API free tier (tweepy)
-- Sign up at developer.x.com — Basic access is free and instant, gives you 500k reads/month, covers timeline + bookmarks endpoint
-- Build a `user-x` MCP that:
-  - Fetches bookmarks saved since last run
-  - Fetches timeline from accounts you follow, filtered by engagement threshold (e.g. >100 likes or from verified/key accounts)
-  - Flags "strong signal" posts — high engagement, contrarian takes, breaking news in your interest areas (AI, DeFi, fintech, YC)
-  - Outputs to `06-Resources/Intel/X_YYYY-MM-DD.md`
-- Publish as standalone repo: `yourusername/mcp-x`
-- Add to nightly cron (see 1e) so it pre-populates before your morning `/daily-plan`
-- Cost: $0 — X API Basic tier is free for reading your own account data and timeline
+**1d. X/Twitter Intel (Drop Zone Pivot)**
+- **Ingest Strategy:** Parallel to LinkedIn, use the **Drop Zone** for X Bookmark exports to avoid API cost and platform bans.
+- **Task:** Build `System/ingest/parse_x.py` to process X Bookmark JSON into the same Markdown ecosystem.
+- **Contextual 'Follows':** Add handles to `System/user-profile.yaml` via `/ingest follow @Handle`. Dex will use these to flag high-signal posts during the ingest process.
+- **Scrapling Fallback:** Experiment with the `scrapling` MCP for ad-hoc profile scans when a manual export isn't available.
+- Cost: $0 — Zero API dependency.
 
 **1e. The cron job layer**
 - Dave runs background automations (`.scripts/` + macOS Launch Agents) that pre-populate intel files overnight so they're ready when he opens Claude

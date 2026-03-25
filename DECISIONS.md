@@ -182,3 +182,20 @@ A "Skill Per Platform" approach (e.g., `/ingest-linkedin`, `/ingest-twitter`) do
 
 **Rationale:**
 By forcing the agent to write the briefing to the vault, we create a version-controlled history of the user's daily intelligence. This enables the Agent to perform "Multi-Day Synthesis" (e.g., "What have been the top 3 trends in the last 7 days?") without re-reading thousands of raw source files. The vault becomes the summarized memory.
+
+---
+
+## [2026-03-25] - Decision: Social Ingest Strategy (Path A: The Drop Zone)
+
+**Context:** Determining the best way to ingest X (Twitter) bookmarks and posts without the volatility and cost of the X API v2.
+
+**Decision:** Adopt **"Path A: The Drop Zone"** for all social intelligence (X, LinkedIn). Users perform period exports (JSON) and Dex processes them locally.
+
+**Rationale:**
+The X API is a "moving target" with high costs and restrictive scopes. By standardizing on **Manual Export -> Local Parsing**, we ensure the Dex OS remains:
+1. **Private/Local-First**: Data never leaves the machine.
+2. **Resilient**: We are not broken by API removals or platform policy shifts.
+3. **Low Friction**: The same `/ingest` command handles all platforms identically.
+Tracking follows is done via `user-profile.yaml` to create intent, while the Drop Zone provides the actual data.
+
+**Future**
