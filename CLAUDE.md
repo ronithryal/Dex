@@ -70,15 +70,49 @@ The system automatically suggests `/getting-started` at next session if vault < 
 
 ---
 
+## High-Performance Workflow (Boris Cherny Rules)
+
+1. **Parallelize Your Workflow:** Run 3–5 Claude instances simultaneously to isolate tasks (planning, coding, reviewing).
+2. **Plan First, Execute Fast:** Always start with a `[PLAN]` block. Iterate on the plan until solid, then switch to implementation.
+3. **Living Memory (Self-Correction):** After any mistake or correction, update `CLAUDE.md` immediately so the system learns.
+4. **Create Custom Skills:** Automate any task performed >1x/day into a skill or command and commit it.
+5. **Build to the Future Model:** Focus on building for future AI capabilities; use high-capability models (thinking mode).
+6. **Keep Context Clean:** Ruthlessly prune `CLAUDE.md` to avoid "test debt" and context clogging.
+7. **PM Decision & Tradeoff Log:** Proactively maintain `DECISIONS.md` for **product-level decisions** (context, rationale, tradeoffs). Use `CLAUDE.md` strictly for **engineering lessons, system norms, and coding rules**. Keep `DECISIONS.md` entries in chronological order (oldest to newest).
+
+---
+
+## Engineering Lessons
+
+### Google Workspace Integration
+- **Application Type:** When setting up the OAuth Client ID in Google Cloud Console, you MUST choose **Web Application**. Do not use "Desktop Application" as it creates redirect port conflicts.
+- **OAuth Redirects:** Under "Authorized redirect URIs", you MUST explicitly allow `http://localhost:3000`.
+- **Whitelisting:** Since the app is in "Testing" mode, you MUST explicitly add your email address under the **OAuth consent screen -> Audience -> Test users** section in Google Cloud Console to avoid a 403 access_denied error.
+
+### Antigravity vs. Gemini CLI
+- **Antigravity IDE:** Optimized for a visual, agent-first "IDE experience." Use the **Agent Side Panel -> "..." -> MCP Store** to manage and install servers visually.
+- **Gemini CLI:** Tailored for terminal-centric workflows, headless execution, and piping output.
+- **Strategy:** Build custom servers (like our YouTube/Twitter MCPs) using the standard MCP protocol so they work interchangeably between the IDE and CLI.
+
+### Managing MCPs in Antigravity
+- **Location:** Open the Side Panel -> "..." (More) -> **MCP Store**.
+- **Custom Config:** Click **Manage MCP Servers -> View raw config** to access the active `mcp_config.json`. This is where custom server definitions (like `user-youtube`) are stored.
+- **Registration:** Always register new local servers in the `mcpServers` block of the IDE's internal `mcp_config.json` rather than external global files to ensure they are picked up by the Editor's agent.
+
+---
+
 ## User Profile
 
-<!-- Updated during onboarding -->
-**Name:** Not yet configured
-**Role:** Not yet configured
-**Company Size:** Not yet configured
-**Working Style:** Not yet configured
+**Name:** Ronith
+**Role:** Product Manager / Founder / Builder
+**Company Size:** Solo / Early-stage startup
+**Working Style:** Late nights, async, solo. Voice-to-text heavy. Build fast, ship publicly, iterate.
 **Pillars:**
-- Not yet configured
+- Portfolio / GitHub presence
+- Stripe application
+- DeFi / on-chain analytics
+- AI-native product development
+- Learning / career growth
 
 ---
 
@@ -100,7 +134,16 @@ Read these files when users ask about system details, features, or setup.
 Add any personal instructions between these markers. The `/dex-update` process preserves this block verbatim.
 
 ## USER_EXTENSIONS_START
-<!-- Add your personal customizations here. -->
+
+### LinkedIn Saved Posts Ingest Detection
+**Trigger:** When a user mentions they dropped a file in the **Drop Zone** (`00-Inbox/Drop_Zone/`) or when a file matching `linkedin-saved-posts*.json` is identified in that folder.
+
+**Action:**
+1. Acknowledge the presence of the LinkedIn export in the Drop Zone.
+2. Offer to automatically run the parser: `python3 System/ingest/parse_linkedin.py`.
+3. Explain that this will convert the data into **Markdown** for optimal Intelligence Scanning (the "Dave Killeen" heuristic).
+4. Once processed, confirm the new files are in `00-Inbox/LinkedIn/` and the original JSON is archived in `07-Archives/`.
+
 ## USER_EXTENSIONS_END
 
 ---
@@ -131,6 +174,9 @@ Use `lookup_person` from Work MCP first — it reads a lightweight JSON index (~
 **Rebuild the index** with `build_people_index` if person pages have been added or changed significantly.
 
 **Semantic Enhancement (QMD):** If QMD MCP tools are available (check with `qmd_status`), also run `qmd_search` for the person's name and role. This finds contextual references like "the VP of Sales mentioned..." or "the PM on the checkout project asked..." that don't mention the person by name. Merge semantic results with the person page content for richer context. If QMD is not available, standard filename/grep lookup works as before.
+
+### Plan Mode (Mandatory)
+Before any implementation, start in "Plan Mode" by providing a `[PLAN]` block. Define the approach, trade-offs, and file impacts. Iterate with the user until the plan is approved. Only then proceed to code.
 
 ### Challenge Feature Requests
 Don't just execute orders. Consider alternatives, question assumptions, suggest trade-offs, leverage existing patterns. Be a thinking partner, not a task executor.
@@ -192,10 +238,6 @@ node .scripts/auto-link-people.cjs <file-path>
 ```
 
 This converts known people names to `[[Firstname_Lastname|Name]]` WikiLinks using the people-engine registry. It handles full names, safe aliases, and unambiguous first names while skipping existing WikiLinks, frontmatter, and code blocks. The script also detects when a first name appears as part of an unknown full name (e.g., "Jessica Jolly") and avoids false-linking standalone uses of that first name.
-
-For batch processing of key files: `node .scripts/auto-link-people.cjs --today`
-
-The script is also available as a module: `const { autoLinkContent } = require('./.scripts/auto-link-people.cjs');`
 
 ### Communication Adaptation
 
@@ -376,9 +418,10 @@ Dex continuously learns from usage and external sources through automatic checks
 **Setup details:** See `06-Resources/Dex_System/Dex_Technical_Guide.md` for installation and configuration.
 
 ### Changelog Discipline
-After making significant system changes (new commands, CLAUDE.md edits, structural changes), update `CHANGELOG.md` before finishing the task.
+After making significant system changes, update `CHANGELOG.md` with a `[Boris Cherny]` tag for performance-related optimizations. Everything in the changelog represents a pushed release.
 
-**No [Unreleased] section.** Everything in the changelog has already been pushed to GitHub — that IS the release. When adding an entry, give it a version number and today's date immediately. The `/dex-push` skill handles versioning at push time.
+### Living Memory Loop
+When corrected on a project norm or systemic error, proactively say "Updating Living Memory" and modify `CLAUDE.md` to prevent recurrence.
 
 
 ### Context Injection (Silent)

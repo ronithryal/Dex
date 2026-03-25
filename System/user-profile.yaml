@@ -8,20 +8,20 @@
 demo_mode: false
 
 # Your name (used to identify you in meetings, filter yourself from participant lists)
-name: ""
+name: "Ronith"
 
 # Your role (used in meeting analysis prompts)
-role: ""
+role: "Product Manager / Founder / Builder"
 
 # Role group (for command filtering and adaptation)
 # Options: product, sales, marketing, finance, engineering, customer_success, operations, leadership, design, support, advisory
-role_group: ""
+role_group: "product"
 
 # Your company (optional, adds context to meeting analysis)
 company: ""
 
 # Company size tier
-company_size: ""  # options: startup (1-100), scaling (100-1000), enterprise (1000-10000), large_enterprise (10000+)
+company_size: "startup"  # options: startup (1-100), scaling (100-1000), enterprise (1000-10000), large_enterprise (10000+)
 
 # Your company email domain (used to identify internal vs external people)
 # Example: "pendo.io" (without @)
@@ -35,7 +35,7 @@ communication:
   formality: "professional_casual"  # options: formal, professional_casual, casual
   
   # Directness preference
-  directness: "balanced"  # options: very_direct, balanced, supportive
+  directness: "very_direct"  # options: very_direct, balanced, supportive
   
   # Detail level in responses
   detail_level: "concise"  # options: concise, balanced, comprehensive
@@ -50,7 +50,7 @@ communication:
 # How Dex processes meetings from Granola
 meeting_processing:
   # Mode: "automatic" (notes appear in your vault within 30min) or "manual" (run /process-meetings)
-  mode: automatic
+  mode: manual
   
   # API provider for automatic mode: gemini, anthropic, or openai
   api_provider: gemini
@@ -59,10 +59,10 @@ meeting_processing:
 # Controls what gets extracted from your meetings (set during onboarding based on role)
 meeting_intelligence:
   # Extract customer pain points and challenges
-  extract_customer_intel: false
+  extract_customer_intel: true
   
   # Extract competitive mentions and comparisons
-  extract_competitive_intel: false
+  extract_competitive_intel: true
   
   # Extract action items (always recommended)
   extract_action_items: true
@@ -71,13 +71,13 @@ meeting_intelligence:
   extract_decisions: true
   
   # Extract stakeholder dynamics and relationships
-  extract_stakeholder_dynamics: false
+  extract_stakeholder_dynamics: true
   
   # Extract budget, authority, need, timeline (BANT for sales)
   extract_budget_timeline: false
   
   # Extract technical decisions and architecture choices
-  extract_technical_decisions: false
+  extract_technical_decisions: true
 
 # Journaling Configuration
 # Controls which journal types are enabled
@@ -89,16 +89,16 @@ journaling:
   evening: false
   
   # Weekly journal: patterns and synthesis
-  weekly: false
+  weekly: true
 
 # Quarterly Planning Configuration
 # Controls whether you use quarterly goal setting
 quarterly_planning:
   # Whether quarterly planning is enabled
-  enabled: false
+  enabled: true
   
   # Has user been asked about quarterly planning during onboarding?
-  prompted: false
+  prompted: true
   
   # Month when Q1 starts (1=Jan, 2=Feb, 4=Apr, etc)
   # Common: 1 (calendar year), 2 (some fiscal years), 4 (many fiscal years)

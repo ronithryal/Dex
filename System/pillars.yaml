@@ -3,26 +3,63 @@
 # Pillars are your main focus areas — think of them as how you carve up your role thematically.
 # These are NOT time-bound (like quarterly goals). They represent ongoing areas of responsibility
 # that typically stay consistent for 6-12+ months, or until your role significantly changes.
-#
-# PILLAR (ongoing):           GOAL (time-bound):
-# "Revenue Growth"      vs    "Hit 150% quota in Q1"
-# "Product Strategy"    vs    "Launch mobile app"
-# "Customer Retention"  vs    "Reduce churn to <2%"
-#
-# Want to change your pillars? Just chat with Claude: "I need to reconfigure my strategic pillars"
-# — it'll help you update how your work ladders up to new focus areas.
-#
-# The Work MCP uses these to categorize tasks and check balance across your work.
 
-pillars: []
-  # Will be populated during onboarding
-  # Example structure:
-  # - id: pillar_id
-  #   name: "Pillar Name"
-  #   description: "What this pillar represents"
-  #   keywords:
-  #     - keyword1
-  #     - keyword2
+pillars:
+  - id: portfolio
+    name: "Portfolio / GitHub presence"
+    description: "Every build ships publicly"
+    keywords:
+      - github
+      - portfolio
+      - commit
+      - ship
+      - public
+  - id: stripe_app
+    name: "Stripe application"
+    description: "Everything is framed as a demo artifact"
+    keywords:
+      - stripe
+      - career
+      - application
+      - demo
+      - artifact
+      - payments
+      - crypto
+      - stablecoin
+  - id: defi_analytics
+    name: "DeFi / on-chain analytics"
+    description: "Dune/Morpho work, crossover with Stripe crypto push"
+    keywords:
+      - dune
+      - defi
+      - morpho
+      - on-chain
+      - analytics
+      - crypto
+      - stablecoin
+  - id: ai_product
+    name: "AI-native product development"
+    description: "Vibecoding, MCP architecture, agent workflows"
+    keywords:
+      - ai
+      - agents
+      - mcp
+      - vibecoding
+      - vibecode
+      - workflow
+      - intelligence
+  - id: growth
+    name: "Learning / career growth"
+    description: "GT degree completion, YC prep, first job"
+    keywords:
+      - learning
+      - career
+      - yc
+      - yc prep
+      - georgia tech
+      - gt
+      - school
+      - mentor
 
 # Priority limits (how many active tasks per priority level)
 priority_limits:

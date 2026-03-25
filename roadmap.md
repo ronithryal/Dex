@@ -1,0 +1,127 @@
+## Full Roadmap: Dex Setup → Portfolio → Stripe Demo
+
+### Phase 0: Foundation (Day 1)
+
+1. **Fork `davekilleen/dex`** to your GitHub right now — everything you build goes on YOUR fork from day one. Name it something that signals the portfolio angle (e.g., `yourusername/dex` or `yourusername/os` for "personal operating system")
+2. Clone your fork locally, open it in Antigravity, run `/setup`
+3. Commit structure for portfolio visibility:
+   - Your skills → `.claude/skills/your-skill-name/`
+   - Your MCPs → standalone repos (`mcp-youtube`, `mcp-dune`, etc.) submoduled in or linked
+   - Web UI → separate repo (`dex-web`)
+
+***
+
+### Phase 1: Core Intel Layer (Week 1)
+
+This is the layer Dave built that's **not** in the public repo — you're replicating and improving it.
+
+**1a. Newsletters (easiest, highest ROI — do this first)**
+- Run `/google-workspace-setup` — this IS in the public repo, connects Gmail
+- Dex's `daily-plan` Step 5.8 already queries Gmail for newsletters and extracts market signals with a "why this matters / contrarian angle" framing
+- You get 120 newsletter digests feeding into your briefing immediately, no custom code
+
+**1b. YouTube Intel (first custom MCP to build)**
+- Dave's approach: point Antigravity at YouTube Data API docs, say "build me an MCP server that fetches the transacripts of new videos from my subscribed channels, summarizes them, and flags what's new, novel, and contrarian"
+- Name it `user-youtube` in your `.mcp.json` so Dex updates never overwrite it
+- Output goes to `06-Resources/Intel/YouTube_YYYY-MM-DD.md`
+- `daily-plan` Step 5 checks if today's intel file exists — if not, triggers the MCP to generate it
+- Publish the MCP as a standalone repo: `yourusername/mcp-youtube` — this becomes a starrable, shareable GitHub artifact
+
+**1c. LinkedIn Saved Posts Parser**
+- **Daily JSON Ingest:** Upload a JSON export of your own saved LinkedIn posts to be ingested into the intelligence scanning similar to newsletters/emails.
+- Dex cross-references new signals against your contacts in `05-Areas/People/` to flag who's worth responding to.
+- For your use case: cross-reference against Stripe/YC-relevant people — anyone from fintech, payments, or top-tier VC shows up highlighted.
+
+**1d. X/Twitter Intel (new custom MCP)**
+- Pull your X timeline, bookmarks, and mentions into a daily digest using the X API free tier (tweepy)
+- Sign up at developer.x.com — Basic access is free and instant, gives you 500k reads/month, covers timeline + bookmarks endpoint
+- Build a `user-x` MCP that:
+  - Fetches bookmarks saved since last run
+  - Fetches timeline from accounts you follow, filtered by engagement threshold (e.g. >100 likes or from verified/key accounts)
+  - Flags "strong signal" posts — high engagement, contrarian takes, breaking news in your interest areas (AI, DeFi, fintech, YC)
+  - Outputs to `06-Resources/Intel/X_YYYY-MM-DD.md`
+- Publish as standalone repo: `yourusername/mcp-x`
+- Add to nightly cron (see 1e) so it pre-populates before your morning `/daily-plan`
+- Cost: $0 — X API Basic tier is free for reading your own account data and timeline
+
+**1e. The cron job layer**
+- Dave runs background automations (`.scripts/` + macOS Launch Agents) that pre-populate intel files overnight so they're ready when he opens Claude
+- Same pattern, your version: a nightly cron that fires the YouTube MCP, LinkedIn ingestion script, and any other data fetchers — so `/daily-plan` in the morning just assembles, doesn't fetch
+
+**Full intel source map:**
+
+| Source | Tool | How it gets into Dex |
+|---|---|---|
+| YouTube (~100 channels) | YouTube Data API → `user-youtube` MCP | `06-Resources/Intel/YouTube_YYYY-MM-DD.md` |
+| X/Twitter | X API (tweepy) → `user-x` MCP | `06-Resources/Intel/X_YYYY-MM-DD.md` |
+| LinkedIn messages | Daily JSON export / upload | Vault markdown, cross-ref against People/ |
+| 120 newsletters | Gmail via Google Workspace MCP (built-in) | Gmail query in `/daily-plan` Step 5.8 |
+| DeFi/on-chain signals | Dune Analytics → `user-dune` MCP (you build this) | `06-Resources/Intel/Crypto_YYYY-MM-DD.md` |
+| Meetings | Granola MCP (built-in) | Auto-syncs 30 min post-meeting |
+| Calendar | Apple Calendar MCP (built-in) | Live read during `/daily-plan` |
+
+***
+
+### Phase 2: Stripe Demo Layer (Week 2–3)
+
+Everything in this phase is explicitly portfolio-facing and Stripe-relevant.
+
+**2a. `user-stripe` MCP**
+- Build an MCP against Stripe's API (they already publish an official one — check Smithery.ai first, then customize)
+- Surfaces into your daily briefing: payment volume trends, dispute rates, failed charges, revenue signals
+- "Eating your own dog food" — you're reasoning about Stripe data inside your operating system
+- Standalone repo: `yourusername/mcp-stripe`
+
+**2b. `user-dune` MCP**
+- Connect your existing Dune Analytics dashboards (Morpho Blue work) into Dex
+- DeFi signals in the morning briefing: protocol TVL, liquidation risks, yield changes
+- This is the crossover that makes your profile unique — most PMs don't have on-chain analytics in their daily operating system
+- Directly relevant to Stripe's stablecoin/crypto push
+
+**2c. `dex-web` — the web UI layer**
+- A Next.js/Supabase app that reads your Dex vault and surfaces it visually
+- Daily briefing as a web dashboard (not just terminal output)
+- This is the PM + builder demo: you took a CLI-first tool and productized it for non-technical users
+- Built with Lovable for speed, Supabase for sync (also your Marginalia Supabase schema is reusable here — see Phase 3)
+- Deploy it, put the URL in your Stripe application
+
+***
+
+### Phase 3: Marginalia → Dex (Parallel, not blocking)
+
+Don't rebuild Marginalia. Extract its value and fold it into Dex:
+
+| Marginalia Feature | What It Becomes in Dex |
+|---|---|
+| Article reader + tagging | `/save-article` skill: Scrapling fetches URL → clean markdown → auto-tagged → saved to `06-Resources/Reading/` → surfaces in `/daily-plan` |
+| Semantic search | Already in Dex as QMD (`/enable-semantic-search`) — your search tuning work from Marginalia informs collection naming and embedding config |
+| Chat with your notes | This IS Dex's core loop — your Marginalia chat UI becomes the `dex-web` frontend |
+| Knowledge graph | Dex's Obsidian integration + wiki-link auto-linker (already in `.scripts/`) |
+| Newsletter ingestion | Folded into Gmail MCP — Marginalia's article parsing logic reusable as an MCP tool |
+| Supabase backend | Dex is local-first, but your Supabase schema from Marginalia becomes the **sync layer** for `dex-web` — multi-device, shareable briefings |
+
+**The one Marginalia concept worth building as a new Dex skill:**
+A **`/save-article`** skill — URL in, tagged markdown out, auto-queued into your reading list, surfaced in daily plan. That's Marginalia's entire job-to-be-done embedded natively in your OS. Ship this as a standalone skill and it's immediately useful to every Dex user → potential upstream PR to Dave's repo → more GitHub visibility.
+
+***
+
+### Phase 4: Advanced Automations (Nice-to-Have)
+
+**4a. LinkedIn Scraping (Full Automation)**
+- Dave uses **Phantom Buster** to scrape LinkedIn messages and connection requests, exports as CSV/webhook.
+- A lightweight cron script or custom MCP ingests that export into a vault markdown file.
+- Re-introduces automated signal discovery for professional networking once the core engine is stable.
+
+---
+
+### GitHub Portfolio Structure
+
+```
+yourusername/dex              ← your fork (vault data gitignored, skills/MCPs public)
+yourusername/dex-web          ← Next.js web UI on top of Dex
+yourusername/mcp-youtube      ← standalone, starrable
+yourusername/mcp-x            ← standalone, starrable
+yourusername/mcp-dune         ← crossover with your existing DeFi work
+yourusername/mcp-stripe       ← Stripe demo artifact
+yourusername/mcp-phantombuster ← LinkedIn scraping (Phase 4)
+```
