@@ -98,12 +98,14 @@ A **`/save-article`** skill — Scrapling fetches URL → clean markdown → aut
 
 ***
 
-### Phase 4: Advanced Automations (Nice-to-Have)
+**4a. The Autonomous Cron Layer**
+*Dependencies: Transition from Drop Zone (Manual) to MCP/API (Automated) must be complete.*
+- **System Integration:** macOS Launch Agents / `.scripts/` routines as a background layer.
+- **Action:** Fires the YouTube and X/Stripe MCPs overnight so `/daily-plan` in the morning just assembles, doesn't fetch.
 
-**4a. LinkedIn Scraping (Full Automation)**
+**4b. LinkedIn Scraping (Full Automation)**
 - Dave uses **Phantom Buster** to scrape LinkedIn messages and connection requests, exports as CSV/webhook.
 - A lightweight cron script or custom MCP ingests that export into a vault markdown file.
-- Re-introduces automated signal discovery for professional networking once the core engine is stable.
 
 ---
 
