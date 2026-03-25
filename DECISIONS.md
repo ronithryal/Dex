@@ -197,5 +197,18 @@ The X API is a "moving target" with high costs and restrictive scopes. By standa
 2. **Resilient**: We are not broken by API removals or platform policy shifts.
 3. **Low Friction**: The same `/ingest` command handles all platforms identically.
 Tracking follows is done via `user-profile.yaml` to create intent, while the Drop Zone provides the actual data.
-
 **Future**
+Build better X integration where if user provides an X Dev API key, Dex can automatically ingest X bookmarks and posts. This will be done by building a custom MCP that can interact with the X API v2.
+---
+
+## [2026-03-25] - Decision: Roadmap Consolidation (Cockpit vs. Engine)
+
+**Context:** Overlapping roadmaps in the `dex` and `savewithmarginalia` repositories were creating project management friction.
+
+**Decision:** Formally split the project into two distinct roadmap domains:
+1. **The Engine (Dex)**: Owns the intelligence layer, ingestion logic, and Markdown storage.
+2. **The Cockpit (Marginalia)**: Owns the cloud-synced UI, SaaS features, and executive experience.
+
+**Rationale:**
+By standardizing the **"Drop Zone"** and **"/ingest"** logic in the Dex Engine, the web UI remains "logic-light." This allows the OS to be portable—you can use the terminal, Obsidian, or the Marginalia web app interchangeably over the same vault. Pruning the SaaS roadmap of low-level parsing tasks reinforces this separation of concerns.
+

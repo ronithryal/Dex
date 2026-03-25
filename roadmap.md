@@ -82,21 +82,19 @@ Everything in this phase is explicitly portfolio-facing and Stripe-relevant.
 
 ***
 
-### Phase 3: Marginalia → Dex (Parallel, not blocking)
+### Phase 3: The Engine → Cockpit Sync (Parallel)
+*Connecting the local vault to the `savewithmarginalia` web UI.*
 
-Don't rebuild Marginalia. Extract its value and fold it into Dex:
-
-| Marginalia Feature | What It Becomes in Dex |
+| Dex Concept | What It Becomes in the Cockpit |
 |---|---|
-| Article reader + tagging | `/save-article` skill: Scrapling fetches URL → clean markdown → auto-tagged → saved to `06-Resources/Reading/` → surfaces in `/daily-plan` |
-| Semantic search | Already in Dex as QMD (`/enable-semantic-search`) — your search tuning work from Marginalia informs collection naming and embedding config |
-| Chat with your notes | This IS Dex's core loop — your Marginalia chat UI becomes the `dex-web` frontend |
-| Knowledge graph | Dex's Obsidian integration + wiki-link auto-linker (already in `.scripts/`) |
-| Newsletter ingestion | Folded into Gmail MCP — Marginalia's article parsing logic reusable as an MCP tool |
-| Supabase backend | Dex is local-first, but your Supabase schema from Marginalia becomes the **sync layer** for `dex-web` — multi-device, shareable briefings |
+| **Social Parsers** | `/ingest` skill: Transforms raw Drop Zone JSON into structured Markdown. |
+| **Daily Plans** | `30-briefings/` folder: Synced to Supabase for mobile viewing as "Morning Intel". |
+| **Person Pages** | `05-Areas/People/` WikiLinks: Visualized in the UI as CRM-style contact profiles. |
+| **Search Tuning** | Hybrid Search (pgvector + Markdown): Standardized across terminal and web. |
+| **Skill Triggers** | UI Buttons: Direct invocation of Dex/Claude Python MCP server routines. |
 
-**The one Marginalia concept worth building as a new Dex skill:**
-A **`/save-article`** skill — URL in, tagged markdown out, auto-queued into your reading list, surfaced in daily plan. That's Marginalia's entire job-to-be-done embedded natively in your OS. Ship this as a standalone skill and it's immediately useful to every Dex user → potential upstream PR to Dave's repo → more GitHub visibility.
+**The one Cog worth building as a new Dex skill:**
+A **`/save-article`** skill — Scrapling fetches URL → clean markdown → auto-tagged → saved to `06-Resources/Reading/`. This embeds the entire "Article Keeper" job-to-be-done natively in your OS core.
 
 ***
 
