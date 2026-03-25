@@ -135,14 +135,15 @@ Add any personal instructions between these markers. The `/dex-update` process p
 
 ## USER_EXTENSIONS_START
 
-### LinkedIn Saved Posts Ingest Detection
-**Trigger:** When a user mentions they dropped a file in the **Drop Zone** (`00-Inbox/Drop_Zone/`) or when a file matching `linkedin-saved-posts*.json` is identified in that folder.
+### Intelligence Ingest Detection (/ingest)
+**Trigger:** When a user mentions they dropped a file in the **Drop Zone** (`00-Inbox/Drop_Zone/`), tags a relevant JSON/MD file, or uses the command `/ingest`.
 
 **Action:**
-1. Acknowledge the presence of the LinkedIn export in the Drop Zone.
-2. Offer to automatically run the parser: `python3 System/ingest/parse_linkedin.py`.
-3. Explain that this will convert the data into **Markdown** for optimal Intelligence Scanning (the "Dave Killeen" heuristic).
-4. Once processed, confirm the new files are in `00-Inbox/LinkedIn/` and the original JSON is archived in `07-Archives/`.
+1. Acknowledge the presence of the export in the Drop Zone.
+2. **Execute Command:** Identify the file source and run the appropriate parser (e.g., `python3 System/ingest/parse_linkedin.py` for LinkedIn).
+3. **Skill Extension:** Support command-line additions: `/ingest add @Handle to favorite channels`. Resolve @Handle to a Channel ID and update **`System/user-profile.yaml`** (youtube or x sections).
+4. Explain that this will convert the data into **Markdown** for optimal Intelligence Scanning (the "Dave Killeen" heuristic).
+5. Once processed, confirm the new files are in `00-Inbox/LinkedIn/` (or appropriate subfolder) and the original JSON is archived in `07-Archives/`.
 
 ## USER_EXTENSIONS_END
 
@@ -534,7 +535,7 @@ Track feature adoption in `System/usage_log.md` to power `/dex-level-up` recomme
 ## Skills
 
 Skills extend Dex capabilities and are invoked with `/skill-name`. Common skills include:
-- `/daily-plan`, `/daily-review` - Daily workflow
+- `/daily-plan`, `/daily-review` - Daily workflow. **Note:** `/daily-plan` output MUST be saved to `00-Inbox/Daily_Plans/YYYY-MM-DD.md`.
 - `/week-plan`, `/week-review` - Weekly workflow
 - `/quarter-plan`, `/quarter-review` - Quarterly planning
 - `/triage`, `/meeting-prep`, `/process-meetings` - Meetings and inbox
@@ -550,6 +551,7 @@ Skills extend Dex capabilities and are invoked with `/skill-name`. Common skills
 - `/integrate-mcp` - Connect tools from Smithery.ai marketplace
 - `/scrape` - Web scraping with stealth, anti-bot bypass, CSS selectors (no API key needed)
 - `/identity-snapshot` - Generate a living profile of your working patterns from Dex data
+- `/ingest` - Process JSON/MD exports from the Drop Zone (e.g., LinkedIn) and manage 'favorite channels' for YouTube/X tracking (e.g., `/ingest add @Handle to favorite channels`)
 
 **Complete catalog:** Run `/dex-level-up` or see `.claude/skills/README.md`
 

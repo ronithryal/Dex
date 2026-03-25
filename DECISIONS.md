@@ -148,3 +148,37 @@ In an "Agentic Operating System," the vault is the source of truth. By using the
 
 **Rationale:**
 This milestone marks the completion of the "Passive Ingest" phase. The OS now has active "eyes" (Gmail/YouTube) and a "memory" (LinkedIn Archive). We have moved from a static storage vault to a dynamic intelligence engine that proactive summarizes user inputs.
+
+---
+
+## [2026-03-25] - Decision: Formalizing Skill 001 (/ingest-linkedin)
+
+**Context:** Transitioning the LinkedIn parser from a "background behavior" to a first-class command/trigger system.
+
+**Decision:** Formally register the command `/ingest-linkedin` and implement a "tag-sensing" trigger where mentioning a Drop Zone file automatically invokes the intelligence ingest skill.
+
+**Rationale:**
+To build a system that feels like an "OS," users need consistent interface patterns. Just as `/daily-plan` synthesizes intelligence, `/ingest-linkedin` captures it. By allowing the user to simply tag a file (e.g., "Ingest @linkedin-saved-posts.json"), we create a "Physical Ingest" metaphor that maps to how people naturally interact with files in a workspace.
+
+---
+
+## [2026-03-25] - Decision: Universal Ingest Architecture (/ingest)
+
+**Context:** Expanding from a LinkedIn-only parser to a multi-source intelligence engine (YouTube, X, PDF, generic JSON).
+
+**Decision:** Generalized `/ingest-linkedin` into a universal `/ingest` command. Replaced source-specific guides with a unified `Upload_Intelligence_Guide.md`.
+
+**Rationale:**
+A "Skill Per Platform" approach (e.g., `/ingest-linkedin`, `/ingest-twitter`) doesn't scale for the user. By centralizing all ingestion under `/ingest`, we reinforce the **"Drop Zone"** as the single entry point for all intelligence. This allows the command to grow intelligently—detecting the data type and applying the appropriate "Dave Killeen Markdown Heuristic" automatically.
+
+
+---
+
+## [2026-03-25] - Decision: Intelligence Archival (/daily-plan)
+
+**Context:** The `/daily-plan` skill generates high-value intelligence briefs from social/email signals.
+
+**Decision:** Require that all `/daily-plan` outputs are automatically saved to `00-Inbox/Daily_Plans/YYYY-MM-DD.md`.
+
+**Rationale:**
+By forcing the agent to write the briefing to the vault, we create a version-controlled history of the user's daily intelligence. This enables the Agent to perform "Multi-Day Synthesis" (e.g., "What have been the top 3 trends in the last 7 days?") without re-reading thousands of raw source files. The vault becomes the summarized memory.

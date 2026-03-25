@@ -91,6 +91,18 @@ journaling:
   # Weekly journal: patterns and synthesis
   weekly: true
 
+# Intelligence Ingest Configuration
+# Favorite channels for automated YouTube / X signal capture
+youtube:
+  favorite_channels:
+    - "@GarryTan"
+    - "@ThePrimeagen"
+
+x:
+  favorite_handles:
+    - "@aakashg0"
+    - "@deedydas"
+
 # Quarterly Planning Configuration
 # Controls whether you use quarterly goal setting
 quarterly_planning:
