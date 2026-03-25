@@ -38,8 +38,9 @@ This is the layer Dave built that is **not** in the public repo — you're repli
 - Cost: $0
 
 **1b. YouTube Intel [ACTIVE]**
-- [x] Build an MCP server that fetches new videos from subscribed channels, summarizes them, and flags what's new, novel, and contrarian
-- [x] Name it `user-youtube` — registered in `.mcp.json`
+- Dave's approach: point Antigravity at YouTube Data API docs, say "build me an MCP server that fetches new videos from my subscribed channels, summarizes them, and flags what's new, novel, and contrarian"
+- [x] **Relocated:** Server logic now lives in **`System/mcp/youtube/`** within this workspace.
+- [x] Name it `user-youtube` in your `.mcp.json` (Antigravity `mcp_config.json`)
 - [ ] Output goes to `06-Resources/Intel/YouTube_YYYY-MM-DD.md`
 - [ ] `daily-plan` trigger: checks if today's intel file exists — if not, triggers the MCP
 - [ ] Publish as standalone repo: `yourusername/mcp-youtube`

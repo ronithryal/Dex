@@ -212,3 +212,14 @@ Build better X integration where if user provides an X Dev API key, Dex can auto
 **Rationale:**
 By standardizing the **"Drop Zone"** and **"/ingest"** logic in the Dex Engine, the web UI remains "logic-light." This allows the OS to be portable—you can use the terminal, Obsidian, or the Marginalia web app interchangeably over the same vault. Pruning the SaaS roadmap of low-level parsing tasks reinforces this separation of concerns.
 
+---
+
+## [2026-03-25] - Decision: MCP Centralization
+
+**Context:** The standalone `mcp-youtube` repo was originally placed in a separate folder for portfolio isolation.
+
+**Decision:** Relocated the YouTube MCP to **`System/mcp/youtube/`** within the main Dex workspace.
+
+**Rationale:**
+To streamline development and ensure all intelligence logic is contained within the primary workspace "vault," we maintain the standalone structure (with its own Git repo and `pyproject.toml`) but place it inside the Dex System tree. This creates a "Mono-Workspace with Multi-Repo" experience that is easier to manage without losing the "Productized MCP" portfolio impact.
+
